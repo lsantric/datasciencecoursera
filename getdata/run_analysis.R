@@ -47,14 +47,14 @@ X_filtered <- data.table(X_filtered)
 setkey(X_filtered, Activity)
 
 #adding appropriate activity labels
-X_filtered[, Activity := as.character(Activity)][Activity == "1", Activity := activity_labels[[2]][1]]
-X_filtered[, Activity := as.character(Activity)][Activity == "2", Activity := activity_labels[[2]][2]]
-X_filtered[, Activity := as.character(Activity)][Activity == "3", Activity := activity_labels[[2]][3]]
-X_filtered[, Activity := as.character(Activity)][Activity == "4", Activity := activity_labels[[2]][4]]
-X_filtered[, Activity := as.character(Activity)][Activity == "5", Activity := activity_labels[[2]][5]]
-X_filtered[, Activity := as.character(Activity)][Activity == "6", Activity := activity_labels[[2]][6]]
+X_filtered[, Activity := as.character(Activity)][Activity == 1, Activity := activity_labels[[2]][1]]
+X_filtered[, Activity := as.character(Activity)][Activity == 2, Activity := activity_labels[[2]][2]]
+X_filtered[, Activity := as.character(Activity)][Activity == 3, Activity := activity_labels[[2]][3]]
+X_filtered[, Activity := as.character(Activity)][Activity == 4, Activity := activity_labels[[2]][4]]
+X_filtered[, Activity := as.character(Activity)][Activity == 5, Activity := activity_labels[[2]][5]]
+X_filtered[, Activity := as.character(Activity)][Activity == 6, Activity := activity_labels[[2]][6]]
 
-#Aggregating averages - not finished :(
+#Aggregating averages
+tmp <- X_filtered[, lapply(.SD,mean), by=Activity]
 
-
-write.table(X_filtered, "data.txt")
+write.table(tmp, "data.txt")
