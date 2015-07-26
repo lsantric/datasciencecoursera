@@ -1,0 +1,1 @@
+Download project data files from coursera to working directory set in R and run script.
