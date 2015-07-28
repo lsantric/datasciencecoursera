@@ -1,4 +1,4 @@
-#Coursera Getting and Cleaning Data Course Project
+#Coursera Exploratory Data Analysis Project
 
 
 ###Files Included:
