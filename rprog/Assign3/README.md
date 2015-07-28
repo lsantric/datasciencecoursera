@@ -1,4 +1,4 @@
-#Coursera Getting and Cleaning Data Course Project
+#Coursera R programming Project
 
 
 ###Files Included:
