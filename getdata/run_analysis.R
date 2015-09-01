@@ -65,4 +65,4 @@ setkey(X_filtered, Activity, Subject)
 
 tmp <- X_filtered[, lapply(.SD,mean), by=c("Activity", "Subject")]
 
-write.table(tmp, "data.txt")
+write.table(tmp, "data.txt", row.names=FALSE)
