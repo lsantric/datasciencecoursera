@@ -24,7 +24,8 @@ activity <- fread ("activity.csv")
 ## What is mean total number of steps taken per day?
 
 ```r
-activityPD <- activity[,sum(as.numeric(as.character(steps)), na.rm = TRUE), by=date]
+activityPD <- activity[!is.na(activity[,steps]),sum(as.numeric(as.character(steps)), na.rm = TRUE), by=date]
+
 setnames(activityPD, "V1", "steps")
 
 meanStep <- mean (activityPD[, steps])
@@ -47,7 +48,7 @@ ggplot(activityPD, aes( x = steps ) ) +
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
       
-The mean and median of the total number of steps taken per day are 9354.2295082, 1.0395 &times; 10<sup>4</sup> and are marked on histogram.
+The mean and median of the total number of steps taken per day are 1.0766189 &times; 10<sup>4</sup>, 1.0765 &times; 10<sup>4</sup> and are marked on histogram.
 
 ## What is the average daily activity pattern?
 
