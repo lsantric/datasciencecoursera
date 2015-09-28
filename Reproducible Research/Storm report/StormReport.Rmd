@@ -1,0 +1,95 @@
+---
+title: "Storm Report"
+author: "lsantric"
+date: "September 27, 2015"
+output: html_document
+---
+
+### Synopsis
+
+Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.
+
+This project involves exploring the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.
+
+The basic goal of this assignment is to explore the NOAA Storm Database and answer some basic questions about severe weather events. 
+
+Data analysis will try to address the following questions:
+
+Across the United States, which types of events (as indicated in the EVTYPE variable) are most harmful with respect to population health?
+
+Across the United States, which types of events have the greatest economic consequences?
+
+### Data Processing
+
+After loading the data from csv file, it is grouped by their type and its impact to population health and property aggregated:
+
+```{r results='hide', message=FALSE, warning=FALSE}
+
+library(data.table)
+library(ggplot2)
+
+stormData <- fread("repdata-data-StormData.csv")
+stormData <- data.table(stormData)
+setkey(stormData, EVTYPE)
+
+fatal <- stormData[,sum(FATALITIES), by=EVTYPE]
+setkey(fatal, V1)
+setorder(fatal,-V1)
+setnames(fatal, c("Type", "Fatalities"))
+
+injury <- stormData[,sum(INJURIES), by=EVTYPE]
+setkey(injury, V1)
+setorder(injury,-V1)
+setnames(injury, c("Type", "Injuries"))
+
+setkey(stormData, PROPDMGEXP)
+stormData["K", PROPDMGEXP := "3"]
+setkey(stormData, PROPDMGEXP)
+stormData["M", PROPDMGEXP := "6"]
+setkey(stormData, PROPDMGEXP)
+stormData["B", PROPDMGEXP := "9"]
+damage <- stormData[,absDMG := PROPDMG * 10 ^ as.numeric(PROPDMGEXP)]
+damage <- damage[,sum(absDMG, na.rm = TRUE), by=EVTYPE]
+setkey(damage, V1)
+setorder(damage,-V1)
+setnames(damage, c("Type", "Damage"))
+
+```
+
+###Results
+
+#### Impact on population health
+
+
+The following r code plots number of injuries and fatalities by eventy type:
+
+
+```{r, fig.width=8, fig.height=4, echo = TRUE}
+head(fatal)
+ggplot(data.table(head(fatal)), aes(x=Type, y=Fatalities)) +
+  geom_bar(stat="identity") +
+  ggtitle("Event types that cause most fatalities")
+
+head(injury)
+ggplot(data.table(head(injury)), aes(x=Type, y=Injuries)) +
+  geom_bar(stat="identity") +
+  ggtitle("Event types that cause most injuries")
+
+```
+
+It is clear from the data that tornadoes present greatest threat to the population by far.
+
+#### Impact on property
+
+The following r code plots property damage in dollars by eventy type:
+
+```{r, fig.width=8, fig.height=4, echo = TRUE}
+
+head(damage)
+ggplot(data.table(head(damage)), aes(x=Type, y=Damage)) +
+  geom_bar(stat="identity") +
+  ggtitle("Event types that cause most property damage")
+
+```
+
+Weather events that make most damage to property are floods, hurricanes, tornadoes and storm surges. Floods are responsible the mosts.
