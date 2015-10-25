@@ -1,11 +1,4 @@
----
-title: 'Statistical Inference: Project report'
-output:
-  html_document:
-    keep_md: yes
-  pdf_document: default
-  word_document: default
----
+# Statistical Inference: Project report
 
 ## Part 1 -Introduction
 
@@ -22,7 +15,8 @@ It will ilustrate via simulation and associated explanatory text the properties 
 The following r code takes 40 samples with exponential distribution and calculates its variance and mean. Then repeats that simulation a thousand times and plots variance and mean histograms of the given data.
 
 
-```{r}
+
+```r
 library(data.table)
 library(ggplot2)
 library(gridExtra)
@@ -33,10 +27,10 @@ setnames(listMeans, "listMeans")
 setnames(listVariance, "listVariance")
 Mean <- mean(listMeans[,listMeans])
 MeanVariance <- mean(listVariance[,listVariance])
-
 ```
 
-```{r, fig.width=8, fig.height=4}
+
+```r
 ggplot(listMeans, aes(x=listMeans)) +
   geom_histogram(bin=0.2) + 
   ggtitle("Mean histogram") +
@@ -44,7 +38,11 @@ ggplot(listMeans, aes(x=listMeans)) +
   geom_vline(aes(xintercept = 1/0.2,colour = "Theoretical_Mean"),show_guide = TRUE) +
   geom_density(aes(y = 0.2 * ..count..), colour = "purple") +
   scale_colour_manual(name="Values of interest", values=c(Theoretical_Mean="yellow",Mean="red"))
+```
 
+![](ProjectReport_files/figure-html/unnamed-chunk-2-1.png) 
+
+```r
 ggplot(listVariance, aes(x=listVariance)) +
   geom_histogram(bin=0.2) + 
   ggtitle("Variance histogram") +
@@ -54,7 +52,9 @@ ggplot(listVariance, aes(x=listVariance)) +
   scale_colour_manual(name="Values of interest", values=c(Theoretical_Var="yellow",MeanVar="red"))
 ```
 
-We can see that distribution of sample means and variances closely resemble normal distribution and that sample's expected mean of `r Mean` and Variance of `r MeanVariance` are very close to theoretical values of 5.
+![](ProjectReport_files/figure-html/unnamed-chunk-2-2.png) 
+
+We can see that distribution of sample means and variances closely resemble normal distribution and that sample's expected mean of 4.9811309 and Variance of 4.8500734 are very close to theoretical values of 5.
 
 
 ## Part 2 -Introduction 
@@ -78,24 +78,32 @@ A data frame with 60 observations on 3 variables.
 
 The following code plots histogram for each of the variables:
 
-```{r, fig.width=6, fig.height=3, message=FALSE}
+
+```r
 ToothGrowth <- data.table(ToothGrowth)
 ggplot(ToothGrowth, aes(x=len)) +
   geom_histogram() + 
   ggtitle("Tooth length histogram") +
   geom_vline(aes(xintercept = mean(ToothGrowth[,len]),colour = "Mean"),show_guide = TRUE) +
   geom_density(aes(y = 0.2 * ..count..), colour = "purple")
-  
+```
 
+![](ProjectReport_files/figure-html/unnamed-chunk-3-1.png) 
+
+```r
 ggplot(ToothGrowth, aes(x=supp)) +
   geom_histogram(bin=0.5) + 
   ggtitle("Supplement type histogram")
-  
-  
+```
+
+![](ProjectReport_files/figure-html/unnamed-chunk-3-2.png) 
+
+```r
 ggplot(ToothGrowth, aes(x=dose)) +
   geom_histogram() + 
   ggtitle("Dose histogram") +
   geom_vline(aes(xintercept = mean(ToothGrowth[,dose]),colour = "Mean"),show_guide = TRUE)
-  
 ```
+
+![](ProjectReport_files/figure-html/unnamed-chunk-3-3.png) 
 
