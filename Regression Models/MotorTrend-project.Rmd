@@ -34,19 +34,14 @@ In this project "Motor Trend Car Road Tests" data set is used. It was extracted 
 [,11]	 carb	 Number of carburetors 
 
 
-```{r}
+Project's main concern is discovering the effects of the type of transmission used in a car on its fuel consomption. As it can be seen on the transmission comparison boxplot below, cars with automatic transmission have lower mpg and consume more fuel on average.
+
+```{r, fig.width=8, fig.height=2}
 library(data.table)
 library(ggplot2)
 
 data("mtcars")
 mtcars <- data.table(mtcars)
-
-
-```
-
-This project's main concern is discovering the effects of the type of transmission used in a car on its fuel consomption. As it can be seen on the transmission comparison boxplot below, cars with automatic transmission have lower mpg and consume more fuel on average.
-
-```{r, fig.width=8, fig.height=4}
 
 ggplot(mtcars, aes(factor(am), mpg)) +
   xlab("0 - Automatic, 1 - Manual") +
@@ -55,7 +50,7 @@ ggplot(mtcars, aes(factor(am), mpg)) +
 
 ```
 
-It is important to check for statistical signifacance of formualted hypothesis. It is necessary to do a two sample t-test and test hypothesis that mpg on cars with manual transmition is greater.
+It is important to check for statistical signifacance of formulated hypothesis which can be achieved using a two sample t-test by testing hypothesis that mpg on cars with manual transmition is greater.
 
 ```{r}
 setkey(mtcars, am)
@@ -63,11 +58,11 @@ p <- t.test(mtcars[am == 1,mpg], mtcars[am == 0,mpg], alternative = "greater")
 print(p)
 ```
 
-T-test confirms our hypothesis, automatic transmission has lower mpg on average.
+T-test confirms our hypothesis and we can conclude that automatic transmission has lower mpg on average.
 
-To get some sense of the relationship between other varibles, ploting its pairwise scatter plots is useful:
+To get some sense of the relationship between other variables, ploting its pairwise scatter plots is useful:
 
-```{r, fig.width=8, fig.height=4}
+```{r, fig.width=8, fig.height=5}
 
 pairs(mtcars, panel=panel.smooth)
 
