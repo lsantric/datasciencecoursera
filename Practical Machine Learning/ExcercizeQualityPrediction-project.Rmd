@@ -1,13 +1,10 @@
 ---
-output: html_document
----
----
 title: 'Practical Machine Learning: Excercise Quality Prediction'
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
-  ---
+  pdf_document: default
+---
 
 ## Introduction / Executive summary
 
@@ -39,7 +36,7 @@ dataPML[,which(colSums(is.na(dataPML)) > 0.8 * length(rownames(dataPML))) := NUL
 
 After cleaning the data, several prediction models were trained - Global Boost Machine, Random Forest.
 
-```{r, message = FALSE, warning = FALSE, results = FALSE, comment = FALSE, cache = TRUE}
+```{r, message = FALSE, warning = FALSE, results = FALSE, comment = FALSE}
 
 boostModel <- train(classe ~ ., method = "gbm", data = dataPML, trControl = trainControl(method = "cv", number = 10, allowParallel = TRUE))
 randomForestModel <- train(classe ~ ., method = "rf", data = dataPML, importance = T, trControl = trainControl(method = "cv", number = 10, allowParallel = TRUE))
