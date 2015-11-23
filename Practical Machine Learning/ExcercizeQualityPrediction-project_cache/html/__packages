@@ -1,0 +1,12 @@
+base
+data.table
+ggplot2
+lattice
+caret
+foreach
+iterators
+doMC
+survival
+gbm
+plyr
+randomForest
