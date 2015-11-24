@@ -12,7 +12,7 @@ Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible t
 
 ## Loading and exploring the data set
 
-In first part of the code, data sets is loaded and partially cleaned. Useless columns and columns with near zero variance are excluded from the dataset. Type of exercises empoyed are classified as numbers from 1 to 5. Also parallel computing is setup with doMC library.
+In first part of the code, data sets is loaded and cleaned. Useless columns with near zero variance and filled with missing data are excluded from the dataset. Type of exercises empoyed are classified as numbers from 1 to 5. Also parallel computing is setup with doMC library.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, results = FALSE, comment = FALSE}
 library(data.table)
@@ -36,7 +36,7 @@ dataPML[,which(colSums(is.na(dataPML)) > 0.8 * length(rownames(dataPML))) := NUL
 
 After cleaning the data, several prediction models were trained - Global Boost Machine, Random Forest.
 
-```{r, message = FALSE, warning = FALSE, results = FALSE, comment = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, results = FALSE, comment = FALSE}
 
 boostModel <- train(classe ~ ., method = "gbm", data = dataPML, trControl = trainControl(method = "cv", number = 10, allowParallel = TRUE))
 randomForestModel <- train(classe ~ ., method = "rf", data = dataPML, importance = T, trControl = trainControl(method = "cv", number = 10, allowParallel = TRUE))
@@ -49,13 +49,13 @@ randomForestModel
 
 ```
 
-As we can see, both of the models do very well. Almost perfect predictions. Training uses cross validation and chooses the model which generalizes best on the validation set. Random Forest did marginally better and is chosen for submission. 
+As we can see, both of the models do very well. They achieve almost perfect predictions with accuracy of ~ 0.99. It means they almost always correctly classify quality of excercize. Training uses cross validation and chooses the model which generalizes best on the validation set. Random Forest did marginally better and is chosen for submission. 
 
 After choosing the right model, it is used on testing set and is submitted to Coursera for grading:
 
-```{r, evaluate = FALSE, echo = FALSE}
+```{r, echo = FALSE}
 
-prediction <- predict(boostModel, dataPMLtest)
+prediction <- predict(randomForestModel, dataPMLtest)
 
 pml_write_files = function(x){
   n = length(x)
