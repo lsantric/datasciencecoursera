@@ -53,7 +53,7 @@ As we can see, both of the models do very well. They achieve almost perfect pred
 
 After choosing the right model, it is used on testing set and is submitted to Coursera for grading:
 
-```{r, echo = FALSE}
+```{r, message = FALSE, warning = FALSE, results = FALSE, comment = FALSE}
 
 prediction <- predict(randomForestModel, dataPMLtest)
 

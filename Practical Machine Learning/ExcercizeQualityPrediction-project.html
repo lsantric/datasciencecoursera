@@ -73,24 +73,24 @@ img {
 <p>In first part of the code, data sets is loaded and cleaned. Useless columns with near zero variance and filled with missing data are excluded from the dataset. Type of exercises empoyed are classified as numbers from 1 to 5. Also parallel computing is setup with doMC library.</p>
 <p>After cleaning the data, several prediction models were trained - Global Boost Machine, Random Forest.</p>
 <pre><code>FALSE Iter   TrainDeviance   ValidDeviance   StepSize   Improve
-FALSE      1        1.6094            -nan     0.1000    0.2489
-FALSE      2        1.4536            -nan     0.1000    0.1687
-FALSE      3        1.3479            -nan     0.1000    0.1313
-FALSE      4        1.2652            -nan     0.1000    0.1161
-FALSE      5        1.1920            -nan     0.1000    0.0824
-FALSE      6        1.1393            -nan     0.1000    0.0862
-FALSE      7        1.0854            -nan     0.1000    0.0858
-FALSE      8        1.0337            -nan     0.1000    0.0789
-FALSE      9        0.9858            -nan     0.1000    0.0723
-FALSE     10        0.9410            -nan     0.1000    0.0617
-FALSE     20        0.6268            -nan     0.1000    0.0392
-FALSE     40        0.3384            -nan     0.1000    0.0161
-FALSE     60        0.2007            -nan     0.1000    0.0080
-FALSE     80        0.1322            -nan     0.1000    0.0037
-FALSE    100        0.0931            -nan     0.1000    0.0023
-FALSE    120        0.0674            -nan     0.1000    0.0018
-FALSE    140        0.0480            -nan     0.1000    0.0007
-FALSE    150        0.0425            -nan     0.1000    0.0006</code></pre>
+FALSE      1        1.6094            -nan     0.1000    0.2457
+FALSE      2        1.4556            -nan     0.1000    0.1674
+FALSE      3        1.3520            -nan     0.1000    0.1468
+FALSE      4        1.2614            -nan     0.1000    0.1016
+FALSE      5        1.1965            -nan     0.1000    0.1071
+FALSE      6        1.1301            -nan     0.1000    0.0879
+FALSE      7        1.0758            -nan     0.1000    0.0773
+FALSE      8        1.0268            -nan     0.1000    0.0830
+FALSE      9        0.9766            -nan     0.1000    0.0633
+FALSE     10        0.9386            -nan     0.1000    0.0679
+FALSE     20        0.6244            -nan     0.1000    0.0321
+FALSE     40        0.3479            -nan     0.1000    0.0211
+FALSE     60        0.2056            -nan     0.1000    0.0054
+FALSE     80        0.1343            -nan     0.1000    0.0050
+FALSE    100        0.0938            -nan     0.1000    0.0027
+FALSE    120        0.0672            -nan     0.1000    0.0018
+FALSE    140        0.0495            -nan     0.1000    0.0007
+FALSE    150        0.0432            -nan     0.1000    0.0011</code></pre>
 <pre class="r"><code>boostModel</code></pre>
 <pre><code>## Stochastic Gradient Boosting 
 ## 
@@ -100,29 +100,29 @@ FALSE    150        0.0425            -nan     0.1000    0.0006</code></pre>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (10 fold) 
-## Summary of sample sizes: 17659, 17660, 17659, 17659, 17660, 17660, ... 
+## Summary of sample sizes: 17660, 17659, 17661, 17659, 17661, 17659, ... 
 ## Resampling results across tuning parameters:
 ## 
 ##   interaction.depth  n.trees  Accuracy   Kappa      Accuracy SD
-##   1                   50      0.8148010  0.7650974  0.008174623
-##   1                  100      0.8863037  0.8560462  0.008675438
-##   1                  150      0.9158616  0.8934928  0.007671310
-##   2                   50      0.9356856  0.9185938  0.007834348
-##   2                  100      0.9795125  0.9740802  0.003667243
-##   2                  150      0.9919476  0.9898148  0.001662107
-##   3                   50      0.9696252  0.9615627  0.005918405
-##   3                  100      0.9926105  0.9906535  0.001954490
-##   3                  150      0.9971461  0.9963902  0.001363045
+##   1                   50      0.8118963  0.7613699  0.010219541
+##   1                  100      0.8880847  0.8583042  0.009219833
+##   1                  150      0.9160634  0.8937421  0.007584237
+##   2                   50      0.9352260  0.9180121  0.008195721
+##   2                  100      0.9791552  0.9736286  0.004231742
+##   2                  150      0.9916418  0.9894280  0.001652157
+##   3                   50      0.9683519  0.9599558  0.003435889
+##   3                  100      0.9932726  0.9914910  0.002106781
+##   3                  150      0.9971971  0.9964548  0.001133015
 ##   Kappa SD   
-##   0.010445929
-##   0.011001013
-##   0.009707269
-##   0.009917962
-##   0.004641820
-##   0.002102214
-##   0.007495305
-##   0.002471501
-##   0.001723940
+##   0.012998374
+##   0.011704685
+##   0.009608225
+##   0.010378517
+##   0.005354056
+##   0.002089188
+##   0.004347553
+##   0.002664057
+##   0.001433070
 ## 
 ## Tuning parameter 'shrinkage' was held constant at a value of 0.1
 ## 
@@ -139,18 +139,28 @@ FALSE    150        0.0425            -nan     0.1000    0.0006</code></pre>
 ## 
 ## No pre-processing
 ## Resampling: Cross-Validated (10 fold) 
-## Summary of sample sizes: 17660, 17661, 17659, 17660, 17661, 17659, ... 
+## Summary of sample sizes: 17660, 17661, 17659, 17660, 17659, 17661, ... 
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  Accuracy   Kappa      Accuracy SD   Kappa SD    
-##    2    0.9977070  0.9970996  0.0015044752  0.0019030029
-##   28    0.9994393  0.9992908  0.0006101552  0.0007717624
-##   55    0.9987767  0.9984526  0.0007290861  0.0009222461
+##    2    0.9979614  0.9974215  0.0008662120  0.0010956899
+##   28    0.9993373  0.9991618  0.0006818957  0.0008625569
+##   55    0.9990825  0.9988394  0.0007130952  0.0009020548
 ## 
 ## Accuracy was used to select the optimal model using  the largest value.
 ## The final value used for the model was mtry = 28.</code></pre>
 <p>As we can see, both of the models do very well. They achieve almost perfect predictions with accuracy of ~ 0.99. It means they almost always correctly classify quality of excercize. Training uses cross validation and chooses the model which generalizes best on the validation set. Random Forest did marginally better and is chosen for submission.</p>
 <p>After choosing the right model, it is used on testing set and is submitted to Coursera for grading:</p>
+<pre class="r"><code>prediction &lt;- predict(randomForestModel, dataPMLtest)
+
+pml_write_files = function(x){
+  n = length(x)
+  for(i in 1:n){
+    filename = paste0(&quot;./TestPredictions/problem_id_&quot;, i, &quot;.txt&quot;)
+    write.table(x[i], file = filename, quote = FALSE, row.names = FALSE, col.names = FALSE)
+  }
+}
+pml_write_files(prediction)</code></pre>
 </div>
 
 
