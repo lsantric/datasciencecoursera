@@ -1,0 +1,131 @@
+---
+title: 'Assignment: Milestone Report'
+author: "Luka Santric"
+date: "March 20, 2016"
+output: html_document
+---
+
+The first step in building a predictive model for text is understanding the distribution and relationship between the words, tokens, and phrases in the text. The goal of this task is understanding the basic relationships observed in the data and preparing for linguistic models creation.
+
+In this document, two tasks are performed:
+
+1. Exploratory analysis - Thorough exploratory analysis of the data, attaining intuition about the distribution of words and relationship between the words in the corpora.
+2. Understand frequencies of words and word pairs - Building figures and tables to understand variation in the frequencies of words and word pairs in the data.
+
+
+## Acquiring and extracting data
+
+Donwnloading data from coursera and extracting it
+
+```{r}
+## Setting dataset url
+file <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
+
+## Downloading and extracting the data
+if (!file.exists("./Data/Coursera-SwiftKey.zip")) {
+    download.file(file, destfile="./Data/Coursera-SwiftKey.zip", method="curl")
+}
+unzip("./Data/Coursera-SwiftKey.zip", exdir = "./Data/")
+```
+
+## Loading data
+
+Loading data from files to variables
+
+```{r}
+
+twitter <- readLines("./Data/final/en_US/en_US.twitter.txt", encoding = "UTF-8", skipNul = TRUE)
+blogs <- readLines("./Data/final/en_US/en_US.blogs.txt", encoding = "UTF-8", skipNul = TRUE)
+news <- readLines("./Data/final/en_US/en_US.news.txt", encoding = "UTF-8", skipNul = TRUE)
+
+```
+
+## Sampling and cleaning data
+
+For practical reasons only a sample of data was used for exploratory analysis
+
+```{r, warning=FALSE, message=FALSE}
+
+library(tm)
+library(SnowballC)
+
+sampleTwitter <- twitter[sample(1:length(twitter),1500)]
+sampleBlogs <- blogs[sample(1:length(blogs),1500)]
+sampleNews <- news[sample(1:length(news),1500)]
+
+sampleTBN <- c(sampleTwitter,sampleBlogs,sampleNews)
+
+unifiedText <- Corpus(VectorSource(sampleTBN))
+
+## Removing unwanted symbols, spaces etc...
+toSpace <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+unifiedText <- tm_map(unifiedText, toSpace, "\"|/|@|\\|")
+unifiedText <- tm_map(unifiedText, toSpace, "[^[:graph:]]")
+unifiedText <- tm_map(unifiedText, content_transformer(tolower))
+unifiedText <- tm_map(unifiedText, removePunctuation)
+unifiedText <- tm_map(unifiedText, removeNumbers)
+unifiedText <- tm_map(unifiedText, stripWhitespace)
+unifiedText <- tm_map(unifiedText, stemDocument)
+unifiedText <- tm_map(unifiedText, PlainTextDocument)
+unifiedText <- tm_map(unifiedText, removeWords, stopwords("english"))
+
+```
+
+## Visualizing data
+
+Wordcloud is a useful way of visualizing textual data. Size of the word represent its frequency.
+
+```{r, warning=FALSE, message=FALSE}
+library(wordcloud)
+
+wordcloud(unifiedText, scale=c(2.5,0.3), min.freq=5, max.words=100, random.order=TRUE,
+          colors=brewer.pal(9, "Set1"), use.r.layout=FALSE)
+```
+
+## Tokenization
+
+Data is split in unigrams, bigrams and trigrams. It allows us to analyse occurance of combinations of words.
+
+```{r, warning=FALSE, message=FALSE}
+library(RWeka)
+library(data.table)
+
+unifiedText_content <- data.frame(text = unlist(sapply(unifiedText, '[', 'content')), stringsAsFactors = F)
+
+uniGram <- data.table(table(NGramTokenizer(unifiedText_content, Weka_control(min = 1, max = 1))))
+biGram <- data.table(table(NGramTokenizer(unifiedText_content, Weka_control(min = 2, max = 2))))
+triGram <- data.table(table(NGramTokenizer(unifiedText_content, Weka_control(min = 3, max = 3))))
+
+setorder(uniGram, -N)
+setorder(biGram, -N)
+setorder(triGram, -N)
+
+
+```
+
+## Plotting n-gram frequencies
+
+Tokenized data into ngrams is easily plotted using gplot2.
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+setnames(uniGram, c("Ngram", "Frequency"))
+setnames(biGram, c("Ngram", "Frequency"))
+setnames(triGram, c("Ngram", "Frequency"))
+
+ggplot(data=uniGram[0:10], aes(x=Ngram, y=Frequency)) +
+  geom_bar(stat="identity", fill="steelblue") + scale_x_discrete(limits=uniGram[0:10]$Ngram) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(data=biGram[0:10], aes(x=Ngram, y=Frequency)) +
+  geom_bar(stat="identity", fill="steelblue") + scale_x_discrete(limits=biGram[0:10]$Ngram) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(data=triGram[0:10], aes(x=Ngram, y=Frequency)) +
+  geom_bar(stat="identity", fill="steelblue") + scale_x_discrete(limits=triGram[0:10]$Ngram) + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+```
+
+## Prediction model
+
+Information gathered here on frequency of occurance of certain combination of words will be used in prediction model in the future. It will try to predict next word a person wants to use based on its writing history.
