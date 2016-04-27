@@ -42,5 +42,5 @@ Additional Information
 
 * The ShinyApp is hosted on shinyapps.io: [https://lsantric.shinyapps.io/ShinyApp_-_AutoComplete/](https://lsantric.shinyapps.io/ShinyApp_-_AutoComplete/)
 
-* Git repository available at: []()
+* Git repository available at: [https://github.com/lsantric/datasciencecoursera](https://github.com/lsantric/datasciencecoursera/tree/master/Capstone%20Project/ShinyApp%20-%20AutoComplete)
 
