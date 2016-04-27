@@ -67,7 +67,6 @@ unifiedText <- tm_map(unifiedText, removeNumbers)
 unifiedText <- tm_map(unifiedText, stripWhitespace)
 unifiedText <- tm_map(unifiedText, stemDocument)
 unifiedText <- tm_map(unifiedText, PlainTextDocument)
-unifiedText <- tm_map(unifiedText, removeWords, stopwords("english"))
 
 ```
 

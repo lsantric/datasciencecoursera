@@ -1,0 +1,10 @@
+name: ShinyApp_-_AutoComplete
+account: lsantric
+server: shinyapps.io
+appId: 98387
+bundleId: 435382
+url: https://lsantric.shinyapps.io/ShinyApp_-_AutoComplete/
+when: 1461721437.77818
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: ShinyPresentation.md|ShinyPresentation.Rpres|data/img/ShinyApp.png|ShinyPresentation-figure/unnamed-chunk-2-1.png
